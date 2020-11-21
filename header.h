@@ -1,0 +1,36 @@
+#ifndef HEADER_h
+#define HEADER_h
+#include <stdio.h>
+
+typedef unsigned char byte;
+typedef unsigned short int word;
+typedef unsigned int dword;
+
+typedef struct{
+    byte bfType1;   // 1 byte   // = 'B';
+    byte bfType2;   // 1 byte   // = 'M';
+    dword bfSize;     // 4 byte   //size of the file (including padding) in bytes
+    word bfReserved1;  // 2 bytes  // Usually set to   // grey
+    word bfReserved2;  // 2 bytes  // Usually set to zero  // grey
+    dword bfOffBits;  // 4 byte   // the offset from the beginning of the file to the bitmap data // grey
+}__attribute__ ((__packed__))BITMAPFILEHEADER;
+
+typedef struct{
+    dword biSize; // 4 byte   // size of the BITMAPINFOHEADER structure, in bytes
+    dword biWidth;    // 4 byte   // width of the image, in pixels
+    dword biHeight;    // 4 byte   // height of the image, in pixels
+    word biPlanes; // 2 bytes  // the number of planes of the target device,usually set to zero    // grey
+    word biBitCount; // 2 bytes  // the number of bits per pixel
+    dword biCompression;  // 4 bytes  // Specifies the type of compression,
+    // usually set to zero (no compression). Need to provide an error if image is compressed.
+    dword biSizeImage;    // 4 bytes  // the size of the image data, in bytes.
+    // If there is no compression, it is valid to set this member to zero.
+    dword biXPelsPerMeter;   // 4 bytes  // the horizontal pixels per meter on the designated target device, usually set to zero. // grey
+    dword biYPelsPerMeter;   // 4 bytes  // the vertical pixels per meter on the designated target device, usually set to zero.   // grey
+    dword biClrUsed;   // 4 bytes  // the number of colors used in the bitmap, 
+    // if set to zero the number of colors is calculated using the biBitCount member.   // grey
+    dword biClrImportant;   // 4 bytes  // the number of color that are 'important' for the bitmap,
+    // if set to zero, all colors are important.    // grey
+}BITMAPINFOHEADER;
+
+#endif
