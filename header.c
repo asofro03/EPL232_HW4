@@ -42,6 +42,10 @@ unsigned char *storeImage(char *filename, BITMAPINFOHEADER *infoH, BITMAPFILEHEA
 
     fread(data, infoH->biSizeImage, 1, fp);
 
+    if(infoH->biCompression!=0){
+        printf("The image is compressed.\n");
+    }
+
     fclose(fp);
     return data;
 }
