@@ -33,6 +33,12 @@ typedef struct{
     // if set to zero, all colors are important.    // grey
 }BITMAPINFOHEADER;
 
+typedef struct{
+    BITMAPFILEHEADER *FILEHEADER;
+    BITMAPINFOHEADER *INFOHEADER;
+    unsigned char *DATA;
+}IMAGE;
+
 /**
  * @brief Stores information about an image in a BITMAPINFOHEADER and BITMAPFILEHEADER.
  * 
