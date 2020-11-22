@@ -33,4 +33,14 @@ typedef struct{
     // if set to zero, all colors are important.    // grey
 }BITMAPINFOHEADER;
 
+/**
+ * @brief 
+ * 
+ * @param filename  The name of the file/image.
+ * @param bitmapInfoHeader  The information about the image.
+ * @param bitmapFileHeader  The information about the file.
+ * @return unsigned char*   The data.
+ */
+unsigned char *storeImage(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader );
+
 #endif
