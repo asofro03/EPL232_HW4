@@ -34,7 +34,7 @@ typedef struct{
 }BITMAPINFOHEADER;
 
 /**
- * @brief 
+ * @brief Stores information about an image in a BITMAPINFOHEADER and BITMAPFILEHEADER.
  * 
  * @param filename  The name of the file/image.
  * @param bitmapInfoHeader  The information about the image.
@@ -42,5 +42,13 @@ typedef struct{
  * @return unsigned char*   The data.
  */
 unsigned char *storeImage(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader );
+
+/**
+ * @brief Prints the header list.
+ * 
+ * @param bitmapInfoHeader  The information about the image.  
+ * @param bitmapFileHeader  The information about the file. 
+ */
+void printList(BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader);
 
 #endif
