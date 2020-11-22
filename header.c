@@ -38,3 +38,27 @@ unsigned char *storeImage(char *filename, BITMAPINFOHEADER *infoH, BITMAPFILEHEA
     fclose(fp);
     return data;
 }
+
+void printList(BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader){
+    printf("BITMAP_FILE_HEADER\n");
+    printf("==================\n");
+    printf("bfType: %c%c\n", bitmapFileHeader->bfType1, bitmapFileHeader->bfType2);
+    printf("bfSize: %d\n", bitmapFileHeader->bfSize);
+    printf("bfReserved1: %d\n", bitmapFileHeader->bfReserved1);
+    printf("bfReserved2: %d\n", bitmapFileHeader->bfReserved2);
+    printf("bfOffBits: %d\n", bitmapFileHeader->bfOffBits);
+    printf("\n");
+    printf("BITMAP_INFO_HEADER\n");
+    printf("==================\n");
+    printf("biSize: %d\n", bitmapInfoHeader->biSize);
+    printf("biWidth: %d\n", bitmapInfoHeader->biWidth);
+    printf("biHeight: %d\n", bitmapInfoHeader->biHeight);
+    printf("biPlanes: %d\n", bitmapInfoHeader->biPlanes);
+    printf("biBitCount: %d\n", bitmapInfoHeader->biBitCount);
+    printf("biCompression: %d\n", bitmapInfoHeader->biCompression);
+    printf("biSizeImage: %d\n", bitmapInfoHeader->biSizeImage);
+    printf("biXPelsPerMeter: %d\n", bitmapInfoHeader->biXPelsPerMeter);
+    printf("biYPelsPerMeter: %d\n", bitmapInfoHeader->biYPelsPerMeter);
+    printf("biClrUsed: %d\n", bitmapInfoHeader->biClrUsed);
+    printf("biClrImportant: %d\n\n", bitmapInfoHeader->biClrImportant);
+}
