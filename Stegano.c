@@ -1,4 +1,5 @@
 #include "header.h"
+#include "Stegano.h"
 
 IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
 
@@ -21,7 +22,6 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
     BITMAPFILEHEADER *newImageFileHeader;
     unsigned char *newImageData= storeImage(maskImage, newImageInfoHeader, newImageFileHeader);
     IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader);
-
 
     int c;
 
