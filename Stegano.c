@@ -1,22 +1,30 @@
 #include "header.h"
 #include "Stegano.h"
+#include <string.h>
 
 IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
 
     BITMAPINFOHEADER *maskInfoHeader;
     BITMAPFILEHEADER *maskFileHeader;
     unsigned char *maskData= storeImage(maskImage, maskInfoHeader, maskFileHeader);
-    IMAGE *Mask = createImage(maskData, maskInfoHeader, maskFileHeader);
+    IMAGE *Mask = createImage(maskData, maskInfoHeader, maskFileHeader, maskImage);
 
     BITMAPINFOHEADER *secretInfoHeader;
     BITMAPFILEHEADER *secretFileHeader;
     unsigned char *secretData= storeImage(secretImage, secretInfoHeader, secretFileHeader);
-    IMAGE *Secret = createImage(secretData, secretInfoHeader, secretFileHeader);
+    IMAGE *Secret = createImage(secretData, secretInfoHeader, secretFileHeader, secretImage);
 
     if((Mask->INFOHEADER->biHeight!=Secret->INFOHEADER->biHeight) ||(Mask->INFOHEADER->biWidth!=Secret->INFOHEADER->biWidth)){
         printf("Error: Cover Image and Mask Image do not have the same dimensions\n");
         exit(-1);
     }
+
+    char *newName = (char *)malloc((strlen(maskImage)+ 5)*sizeof(char));
+    char *new = "-new";
+    strcat(newName, new);
+    strcat(newName, maskImage);
+    newName[strlen(maskImage)+4] = '\0';
+
 
     BITMAPINFOHEADER *newImageInfoHeader;
     BITMAPFILEHEADER *newImageFileHeader;

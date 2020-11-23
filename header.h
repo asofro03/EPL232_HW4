@@ -37,6 +37,7 @@ typedef struct{
     BITMAPFILEHEADER *FILEHEADER;
     BITMAPINFOHEADER *INFOHEADER;
     unsigned char *DATA;
+    char *name;
 }IMAGE;
 
 /**
