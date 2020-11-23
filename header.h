@@ -40,15 +40,18 @@ typedef struct{
     char *name;
 }IMAGE;
 
+
 /**
+ /**
  * @brief Create a Image struct.
  * 
  * @param Data Data of the image.
  * @param InfoHeader Bitmap Info Header of the image.
  * @param FileHeader Bitmap File Header of the image.
+ * @param nameOfImage Name of the image.
  * @return IMAGE* New image.
  */
-IMAGE *createImage(unsigned char *Data, BITMAPINFOHEADER *InfoHeader, BITMAPFILEHEADER *FileHeader);
+IMAGE *createImage(unsigned char *Data, BITMAPINFOHEADER *InfoHeader, BITMAPFILEHEADER *FileHeader, char *nameOfImage);
 
 /**
  * @brief Stores information about an image in a BITMAPINFOHEADER and BITMAPFILEHEADER.
