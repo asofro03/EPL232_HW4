@@ -4,27 +4,30 @@
 
 IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
 
-    BITMAPINFOHEADER *maskInfoHeader;
+   /* BITMAPINFOHEADER *maskInfoHeader;
     BITMAPFILEHEADER *maskFileHeader;
     unsigned char *maskData= storeImage(maskImage, maskInfoHeader, maskFileHeader);
-    IMAGE *Mask = createImage(maskData, maskInfoHeader, maskFileHeader, maskImage);
+    IMAGE *Mask = createImage(maskData, maskInfoHeader, maskFileHeader, maskImage); */
+    IMAGE *Mask = newImage(maskImage);
 
-    BITMAPINFOHEADER *secretInfoHeader;
+    /*BITMAPINFOHEADER *secretInfoHeader;
     BITMAPFILEHEADER *secretFileHeader;
     unsigned char *secretData= storeImage(secretImage, secretInfoHeader, secretFileHeader);
-    IMAGE *Secret = createImage(secretData, secretInfoHeader, secretFileHeader, secretImage);
+    IMAGE *Secret = createImage(secretData, secretInfoHeader, secretFileHeader, secretImage);   */
+    IMAGE *Secret = newImage(secretImage);
 
     if((Mask->INFOHEADER->biHeight!=Secret->INFOHEADER->biHeight) ||(Mask->INFOHEADER->biWidth!=Secret->INFOHEADER->biWidth)){
         printf("Error: Cover Image and Mask Image do not have the same dimensions\n");
         exit(-1);
     }
 
-    char *newName = newImageName(maskImage);
-
-    BITMAPINFOHEADER *newImageInfoHeader;
+  
+  /*  BITMAPINFOHEADER *newImageInfoHeader;
     BITMAPFILEHEADER *newImageFileHeader;
     unsigned char *newImageData= storeImage(maskImage, newImageInfoHeader, newImageFileHeader);
-    IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader, newName);
+    IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader, newName);   */
+    IMAGE *encodedImage = newImage(maskImage);
+    encodedImage->name=newImageName(maskImage);
 
     int c;
 
@@ -37,8 +40,8 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
     for( c=0; c< sizeof(Mask->DATA)/sizeof(unsigned char); c++){
         byte getLeastSignificant = Mask->DATA[c] & nByte;
         getLeastSignificant= getLeastSignificant<<(8-nbBits);
-        newImage->DATA[c]= Secret->DATA[0]|getLeastSignificant;
+        encodedImage->DATA[c]= Secret->DATA[0]|getLeastSignificant;
     }
 
-    return newImage;
+    return encodedImage;
 }
