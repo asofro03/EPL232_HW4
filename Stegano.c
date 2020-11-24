@@ -29,7 +29,7 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
     BITMAPINFOHEADER *newImageInfoHeader;
     BITMAPFILEHEADER *newImageFileHeader;
     unsigned char *newImageData= storeImage(maskImage, newImageInfoHeader, newImageFileHeader);
-    IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader);
+    IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader, newName);
 
     int c;
 
