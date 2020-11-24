@@ -1,5 +1,13 @@
 #include "header.h"
 
+IMAGE *newImage (char *filename){
+    BITMAPINFOHEADER *InfoHeader;
+    BITMAPFILEHEADER *FileHeader;
+    unsigned char *Data= storeImage(filename, InfoHeader, FileHeader);
+    IMAGE *image = createImage(Data, InfoHeader, FileHeader, filename);
+    return image;
+}
+
 IMAGE *createImage(unsigned char *Data, BITMAPINFOHEADER *InfoHeader, BITMAPFILEHEADER *FileHeader, char *filename){
     IMAGE image;
     image.DATA= Data;

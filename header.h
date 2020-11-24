@@ -40,6 +40,13 @@ typedef struct{
     char *name;
 }IMAGE;
 
+/**
+ * @brief Created a new image based on the data of the filename.
+ * 
+ * @param filename Data of the image.
+ * @return IMAGE* New image.
+ */
+IMAGE *newImage (char *filename)
 
 /**
  /**
