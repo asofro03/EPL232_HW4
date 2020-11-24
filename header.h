@@ -71,4 +71,13 @@ unsigned char *storeImage(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, BI
  */
 void printList(BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader);
 
+/**
+ * @brief This function returns the name of a new image simpy by adding the word "new-"
+ * in front of the already existing name.
+ * 
+ * @param name The already existing name of the pic.
+ * @return char* New name of the pic "new-name".
+ */
+char *newImageName( char *name);
+
 #endif

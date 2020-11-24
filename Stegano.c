@@ -19,12 +19,7 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
         exit(-1);
     }
 
-    char *newName = (char *)malloc((strlen(maskImage)+ 5)*sizeof(char));
-    char *new = "-new";
-    strcat(newName, new);
-    strcat(newName, maskImage);
-    newName[strlen(maskImage)+4] = '\0';
-
+    char *newName = newImageName(maskImage);
 
     BITMAPINFOHEADER *newImageInfoHeader;
     BITMAPFILEHEADER *newImageFileHeader;

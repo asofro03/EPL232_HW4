@@ -74,3 +74,12 @@ void printList(BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileH
     printf("biClrUsed: %d\n", bitmapInfoHeader->biClrUsed);
     printf("biClrImportant: %d\n\n", bitmapInfoHeader->biClrImportant);
 }
+
+char *newImageName( char *name){
+    char *newName = (char *)malloc((strlen(name)+ 5)*sizeof(char));
+    char *new = "-new";
+    strcat(newName, new);
+    strcat(newName, name);
+    newName[strlen(name)+4] = '\0';
+    return newName;
+}
