@@ -51,3 +51,31 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
 
     return encodedImage;
 }
+
+IMAGE *decodeStegano(int nbBits, char *encryptedImage){
+
+   /* BITMAPINFOHEADER *maskInfoHeader;
+    BITMAPFILEHEADER *maskFileHeader;
+    unsigned char *maskData= storeImage(maskImage, maskInfoHeader, maskFileHeader);
+    IMAGE *Mask = createImage(maskData, maskInfoHeader, maskFileHeader, maskImage); */
+    IMAGE *Encrypted = newImage(encryptedImage);
+
+  /*  BITMAPINFOHEADER *newImageInfoHeader;
+    BITMAPFILEHEADER *newImageFileHeader;
+    unsigned char *newImageData= storeImage(maskImage, newImageInfoHeader, newImageFileHeader);
+    IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader, newName);   */
+    IMAGE *encodedImage = newImage(encryptedImage);
+    encodedImage->name=newImageName(encryptedImage);
+
+    byte nByte = findMaskByte(nbBits);
+   // nByte = nByte<<(8-nbBits);
+
+    int c;
+    for( c=0; c< strlen(Encrypted->DATA); c++){
+        byte getLeastSignificant = Encrypted->DATA[c] & nByte;
+        getLeastSignificant= getLeastSignificant<<(8-nbBits);
+        encodedImage->DATA[c]= getLeastSignificant;
+    }
+
+    return encryptedImage;
+}
