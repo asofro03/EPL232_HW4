@@ -72,10 +72,16 @@ unsigned char *storeImage(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, BI
 /**
  * @brief Prints the header list.
  * 
+ * @param image The image that the header information is stored.
+ */
+void printList(IMAGE *image);
+/*
+ * @brief Prints the header list.
+ * 
  * @param bitmapInfoHeader  The information about the image.  
  * @param bitmapFileHeader  The information about the file. 
  */
-void printList(BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader);
+//void printList(BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader);
 
 /**
  * @brief This function returns the name of a new image simpy by adding the word "new-"
