@@ -46,7 +46,7 @@ typedef struct{
  * @param filename Data of the image.
  * @return IMAGE* New image.
  */
-IMAGE *newImage (char *filename)
+IMAGE *newImage (char *filename);
 
 /**
  /**
