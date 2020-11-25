@@ -2,6 +2,16 @@
 #include "Stegano.h"
 #include <string.h>
 
+byte findMaskByte(int nbBits){
+    byte nByte = 1;
+    int c;
+    for(c=1; c<nbBits; c++){
+        nByte= nByte<<1;
+        nByte = nByte|1;
+    }
+    return nByte;
+}
+
 IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
 
    /* BITMAPINFOHEADER *maskInfoHeader;
@@ -29,18 +39,14 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
     IMAGE *encodedImage = newImage(maskImage);
     encodedImage->name=newImageName(maskImage);
 
+    byte nByte = findMaskByte(nbBits);
+    nByte = nByte<<(8-nbBits);
+
     int c;
-
-    byte nByte = 1;
-    for(c=1; c<nbBits; c++){
-        nByte= nByte<<1;
-        nByte = nByte|1;
-    }
-
-    for( c=0; c< sizeof(Mask->DATA)/sizeof(unsigned char); c++){
-        byte getLeastSignificant = Mask->DATA[c] & nByte;
-        getLeastSignificant= getLeastSignificant<<(8-nbBits);
-        encodedImage->DATA[c]= Secret->DATA[0]|getLeastSignificant;
+    for( c=0; c< strlen(Mask->DATA); c++){
+        byte getMostSignificant = Secret->DATA[c] & nByte;
+        getMostSignificant= getMostSignificant>>(8-nbBits);
+        encodedImage->DATA[c]= Mask->DATA[c]|getMostSignificant;
     }
 
     return encodedImage;
