@@ -48,7 +48,6 @@ typedef struct{
  */
 IMAGE *newImage (char *filename);
 
-/**
  /**
  * @brief Create a Image struct.
  * 
