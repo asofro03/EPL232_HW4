@@ -1,4 +1,4 @@
-#include "header.h"
+#include "list.h"
 
 IMAGE stringToImage(char *image, char *filename){
 

@@ -2,7 +2,6 @@
 
 IMAGE *newImage(char *filename){
 
-    printf("%s\n", filename);
     BITMAPINFOHEADER *InfoHeader;
     BITMAPFILEHEADER *FileHeader;
 
@@ -13,32 +12,15 @@ IMAGE *newImage(char *filename){
         exit(-1);
     }
 
-    printf("opened file\n");
-
     fread(FileHeader, sizeof(BITMAPFILEHEADER), 1, fp);
 
-    printf("read file header\n");
-
     if (FileHeader->bfType1 !='B' || FileHeader->bfType2 !='M'){
-        printf("%c\n",FileHeader->bfType1);
-        printf("%c\n",FileHeader->bfType2);
         fclose(fp);
         printf("Not an bmp file\n");
         return NULL;
     }
 
-    printf("it is an bmp file\n");
-
     fread(InfoHeader, sizeof(BITMAPINFOHEADER), 1, fp);
-
-   // printf("we good\n");
-
-    if((InfoHeader->biWidth*3)%4!=0)
-        FileHeader->bfOffBits= 4-(InfoHeader->biWidth*3)%4;
-    else
-        FileHeader->bfOffBits= 0;
-
- //   printf("we good\n");
 
     unsigned char *Data;
     Data = (unsigned char*)malloc(InfoHeader->biSizeImage);
@@ -48,15 +30,12 @@ IMAGE *newImage(char *filename){
         printf("Cannot allocate memory for Data\n");
         exit(-1);
     }
-  //  printf("we good\n");
 
     fread(Data, InfoHeader->biSizeImage, 1, fp);
-  //  printf("we good\n");
 
     if(InfoHeader->biCompression!=0){
         printf("The image is compressed.\n");
     }
-  //  printf("we good\n");
 
     fclose(fp);
 
@@ -65,8 +44,6 @@ IMAGE *newImage(char *filename){
     image->FILEHEADER = FileHeader;
     image->INFOHEADER = InfoHeader;
     image->name = filename;
-
-    printf("we good\n");
 
     return image;
 }
@@ -92,7 +69,7 @@ void printList(IMAGE *image){
     printf("biXPelsPerMeter: %d\n", image->INFOHEADER->biXPelsPerMeter);
     printf("biYPelsPerMeter: %d\n", image->INFOHEADER->biYPelsPerMeter);
     printf("biClrUsed: %d\n", image->INFOHEADER->biClrUsed);
-    printf("biClrImportant: %d\n", image->INFOHEADER->biClrImportant);
+    printf("biClrImportant: %d\n\n", image->INFOHEADER->biClrImportant);
 }
 
 /*
@@ -125,7 +102,7 @@ unsigned char *storeImage(char *filename, BITMAPINFOHEADER *infoH, BITMAPFILEHEA
 
     fread(fileH, sizeof(BITMAPFILEHEADER), 1, fp);
 
-    if (fileH->bfType1 !=0x4D || fileH->bfType2 !=0x42){
+    if (fileH->bfType1 !=0x'B' || fileH->bfType2 !='M'){
         printf("%c\n",fileH->bfType1);
         fclose(fp);
         printf("Not an bmp file\n");
@@ -199,9 +176,7 @@ void main(int argc, char *argv[]){
 
     int c;
     for(c=1; c<argc; c++){
-        IMAGE *image = newImage(argv[c]);
-        printList(image);
+        printList(newImage(argv[c]));
         printf("***************************************************************************\n");
-       free(image);
   }
 }

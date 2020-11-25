@@ -1,4 +1,4 @@
-#include "header.h"
+#include "list.h"
 #include "Stegano.h"
 #include <string.h>
 
