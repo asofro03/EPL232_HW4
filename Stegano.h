@@ -21,4 +21,13 @@ byte findMaskByte(int nbBits);
  */
 IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage);
 
+/**
+ * @brief Decodes a cover image and it creates the secret image.
+ * 
+ * @param nbBits Bits that are previously changed in the encrypted image.
+ * @param encryptedImage The cover-encrypted image.
+ * @return IMAGE* The decrypted secret image.
+ */
+IMAGE *decodeStegano(int nbBits, char *encryptedImage);
+
 #endif
