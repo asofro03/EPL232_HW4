@@ -1,5 +1,22 @@
 #include "list.h"
 
+void saveImage(IMAGE *image){
+
+    char *filename = (char *)malloc(sizeof(image->name)+5*sizeof(char));
+    filename= strcat(filename, image->name);
+    filename= strcat(filename, ".bmp");
+    filename[strlen(filename)-1]='/0';
+
+    FILE *fp;
+    fp=fopen(filename, "wb");
+    
+    fwrite(image->FILEHEADER, sizeof(image->FILEHEADER), sizeof(image->FILEHEADER)/(16*sizeof(byte)), fp);
+    fwrite(image->INFOHEADER, sizeof(image->INFOHEADER), sizeof(image->INFOHEADER)/(40*sizeof(byte)), fp);
+    fwrite(image->DATA, sizeof(image->DATA), strlen(image->DATA), fp);
+
+    fclose(fp);
+}
+
 IMAGE *newImage(char *filename){
 
     BITMAPINFOHEADER *InfoHeader;
