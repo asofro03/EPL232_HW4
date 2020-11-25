@@ -41,33 +41,13 @@ typedef struct{
 }IMAGE;
 
 /**
- * @brief Created a new image based on the data of the filename.
+ * @brief Created a new image based on the data of the filename. Creates a Image struct where stores
+ * information about the image in a BITMAPINFOHEADER, BITMAPFILEHEADER and data.
  * 
- * @param filename Data of the image.
- * @return IMAGE* New image.
+ * @param filename Name of the image.
+ * @return IMAGE* New image struct filled with the image's information.
  */
 IMAGE *newImage (char *filename);
-
- /**
- * @brief Create a Image struct.
- * 
- * @param Data Data of the image.
- * @param InfoHeader Bitmap Info Header of the image.
- * @param FileHeader Bitmap File Header of the image.
- * @param nameOfImage Name of the image.
- * @return IMAGE* New image.
- */
-IMAGE *createImage(unsigned char *Data, BITMAPINFOHEADER *InfoHeader, BITMAPFILEHEADER *FileHeader, char *nameOfImage);
-
-/**
- * @brief Stores information about an image in a BITMAPINFOHEADER and BITMAPFILEHEADER.
- * 
- * @param filename  The name of the file/image.
- * @param bitmapInfoHeader  The information about the image.
- * @param bitmapFileHeader  The information about the file.
- * @return unsigned char*   The data.
- */
-unsigned char *storeImage(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader );
 
 /**
  * @brief Prints the header list.
@@ -91,5 +71,14 @@ void printList(IMAGE *image);
  * @return char* New name of the pic "new-name".
  */
 char *newImageName( char *name);
+
+/**
+ * @brief Driver function of the class. The main function takes as input one or more images
+ * and it prints a list for each image of their information.
+ * 
+ * @param argc The number of files.
+ * @param argv The name of the files.
+ */
+void main(int argc, char *argv[]);
 
 #endif
