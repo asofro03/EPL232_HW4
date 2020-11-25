@@ -1,3 +1,14 @@
+/** @file list.h
+ *  @brief Creates IMAGES structs and prints a list of image's information.
+ * 
+ *  This class takes as input one or more files, where we read images in the newImage function.
+ *  Also in the newImage function, the information about each image is saved in an IMAGE struct.
+ *  The information about each image is printed in printList function.
+ *
+ *  @author AnnaMaria Sofroniou
+ *  @bug It can only read one image and print its information. It can take as input many files but it can only print one image.
+ */
+
 #ifndef HEADER_h
 #define HEADER_h
 #include <stdio.h>
