@@ -12,6 +12,7 @@
 #ifndef HEADER_h
 #define HEADER_h
 #include <stdio.h>
+#include <string.h>
 
 typedef unsigned char byte;
 typedef unsigned short int word;
@@ -50,6 +51,13 @@ typedef struct{
     unsigned char *DATA;
     char *name;
 }IMAGE;
+
+/**
+ * @brief Saves an image as a file.
+ * 
+ * @param image The image that we are going to save.
+ */
+void saveImage(IMAGE *image);
 
 /**
  * @brief Created a new image based on the data of the filename. Creates a Image struct where stores
