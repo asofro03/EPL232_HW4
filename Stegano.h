@@ -3,7 +3,15 @@
 #include <stdio.h>
 
 /**
- * @brief Encodes a secret image using a mask image. Bits from the secret
+ * @brief Creates a mask based on the nbBits integer.
+ * 
+ * @param nbBits The number of bit needed for the mask.
+ * @return byte The new mask.
+ */
+byte findMaskByte(int nbBits);
+
+/**
+ * @brief Encodes a mask image using a secret image. Bits from the secret
  * image are being inserted in the mask image creating a new image with different pixels.
  * 
  * @param nbBits The number of bits that are going to change in the pixel.
