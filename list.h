@@ -27,6 +27,8 @@ typedef struct{
     dword bfOffBits;  // 4 byte   // the offset from the beginning of the file to the bitmap data // grey
 }__attribute__ ((__packed__))BITMAPFILEHEADER;
 
+typedef unsigned char luminance;
+typedef luminance pixel1[1];
 typedef struct{
     dword biSize; // 4 byte   // size of the BITMAPINFOHEADER structure, in bytes
     dword biWidth;    // 4 byte   // width of the image, in pixels
@@ -43,7 +45,17 @@ typedef struct{
     // if set to zero the number of colors is calculated using the biBitCount member.   // grey
     dword biClrImportant;   // 4 bytes  // the number of color that are 'important' for the bitmap,
     // if set to zero, all colors are important.    // grey
+     luminance *buf;
 }BITMAPINFOHEADER;
+
+
+/**
+ * i need them in the grey scale i thing
+ * 
+ */ 
+BITMAPINFOHEADER alloc_grayimg(unsigned int, unsigned int);
+BITMAPINFOHEADER tograyscale(image);
+IMAGE tocolor(grayimage);
 
 typedef struct{
     BITMAPFILEHEADER *FILEHEADER;
@@ -58,6 +70,9 @@ typedef struct{
  * @param image The image that we are going to save.
  */
 void saveImage(IMAGE *image);
+
+
+
 
 /**
  * @brief Created a new image based on the data of the filename. Creates a Image struct where stores
