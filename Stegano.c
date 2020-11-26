@@ -1,9 +1,11 @@
-#include "list.h"
+#include "header.h"
 #include "Stegano.h"
+#include <stdio.h>
 #include <string.h>
 
 byte findMaskByte(int nbBits){
     byte nByte = 1;
+
     int c;
     for(c=1; c<nbBits; c++){
         nByte= nByte<<1;
@@ -13,17 +15,9 @@ byte findMaskByte(int nbBits){
 }
 
 IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
-
-   /* BITMAPINFOHEADER *maskInfoHeader;
-    BITMAPFILEHEADER *maskFileHeader;
-    unsigned char *maskData= storeImage(maskImage, maskInfoHeader, maskFileHeader);
-    IMAGE *Mask = createImage(maskData, maskInfoHeader, maskFileHeader, maskImage); */
+    
     IMAGE *Mask = newImage(maskImage);
-
-    /*BITMAPINFOHEADER *secretInfoHeader;
-    BITMAPFILEHEADER *secretFileHeader;
-    unsigned char *secretData= storeImage(secretImage, secretInfoHeader, secretFileHeader);
-    IMAGE *Secret = createImage(secretData, secretInfoHeader, secretFileHeader, secretImage);   */
+    
     IMAGE *Secret = newImage(secretImage);
 
     if((Mask->INFOHEADER->biHeight!=Secret->INFOHEADER->biHeight) ||(Mask->INFOHEADER->biWidth!=Secret->INFOHEADER->biWidth)){
@@ -31,11 +25,6 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
         exit(-1);
     }
 
-  
-  /*  BITMAPINFOHEADER *newImageInfoHeader;
-    BITMAPFILEHEADER *newImageFileHeader;
-    unsigned char *newImageData= storeImage(maskImage, newImageInfoHeader, newImageFileHeader);
-    IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader, newName);   */
     IMAGE *encodedImage = newImage(maskImage);
     encodedImage->name=newImageName(maskImage);
 
@@ -54,21 +43,12 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
 
 IMAGE *decodeStegano(int nbBits, char *encryptedImage){
 
-   /* BITMAPINFOHEADER *maskInfoHeader;
-    BITMAPFILEHEADER *maskFileHeader;
-    unsigned char *maskData= storeImage(maskImage, maskInfoHeader, maskFileHeader);
-    IMAGE *Mask = createImage(maskData, maskInfoHeader, maskFileHeader, maskImage); */
     IMAGE *Encrypted = newImage(encryptedImage);
-
-  /*  BITMAPINFOHEADER *newImageInfoHeader;
-    BITMAPFILEHEADER *newImageFileHeader;
-    unsigned char *newImageData= storeImage(maskImage, newImageInfoHeader, newImageFileHeader);
-    IMAGE *newImage = createImage(newImageData, newImageInfoHeader, newImageFileHeader, newName);   */
     IMAGE *encodedImage = newImage(encryptedImage);
+    
     encodedImage->name=newImageName(encryptedImage);
-
+    
     byte nByte = findMaskByte(nbBits);
-   // nByte = nByte<<(8-nbBits);
 
     int c;
     for( c=0; c< strlen(Encrypted->DATA); c++){
@@ -78,4 +58,17 @@ IMAGE *decodeStegano(int nbBits, char *encryptedImage){
     }
 
     return encryptedImage;
+}
+
+void main(int argc, char *argv[]){
+
+    if(argc<2){
+        printf("Not enough arguments\n");
+        return 0;}  
+
+    if((strcmp(argv[1], "encode")==0))
+        saveImage(encodeStegano(argv[2], argv[3], argv[4]));
+    else
+        saveImage(decodeStegano(argv[2], argv[3]));
+
 }
