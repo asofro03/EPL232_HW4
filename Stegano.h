@@ -1,6 +1,6 @@
-#ifndef HEADER_h
-#define HEADER_h
-#include <stdio.h>
+#ifndef STEGANO_h
+#define STEGANO_h
+
 
 /**
  * @brief Creates a mask based on the nbBits integer.
