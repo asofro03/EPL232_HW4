@@ -1,26 +1,28 @@
-#include "list.h"
+#include "header.h"
+#include <stdio.h>
+#include <string.h>
 
 void saveImage(IMAGE *image){
-
-    char *filename = (char *)malloc(sizeof(image->name)+5*sizeof(char));
-    filename= strcat(filename, image->name);
-    filename= strcat(filename, ".bmp");
-    filename[strlen(filename)-1]='/0';
-
+    
     FILE *fp;
-    fp=fopen(filename, "wb");
+    fp=fopen(image->name, "wb");
     
     fwrite(image->FILEHEADER, sizeof(image->FILEHEADER), sizeof(image->FILEHEADER)/(16*sizeof(byte)), fp);
     fwrite(image->INFOHEADER, sizeof(image->INFOHEADER), sizeof(image->INFOHEADER)/(40*sizeof(byte)), fp);
+
+    printf("we have a problem here\n");
+
     fwrite(image->DATA, sizeof(image->DATA), strlen(image->DATA), fp);
+
+    printf("eyy fixed\n");
 
     fclose(fp);
 }
 
 IMAGE *newImage(char *filename){
 
-    BITMAPINFOHEADER *InfoHeader;
-    BITMAPFILEHEADER *FileHeader;
+    BITMAPINFOHEADER *InfoHeader = (BITMAPINFOHEADER *)malloc(sizeof(BITMAPINFOHEADER));
+    BITMAPFILEHEADER *FileHeader = (BITMAPFILEHEADER *)malloc(sizeof(BITMAPFILEHEADER));
 
     FILE *fp;
     fp = fopen(filename,"rb");
@@ -66,7 +68,7 @@ IMAGE *newImage(char *filename){
 }
 
 void printList(IMAGE *image){
-    printf("BITMAP_FILE_HEADER\n");
+    printf("\nBITMAP_FILE_HEADER\n");
     printf("==================\n");
     printf("bfType: %c%c\n", image->FILEHEADER->bfType1, image->FILEHEADER->bfType2);
     printf("bfSize: %d\n", image->FILEHEADER->bfSize);
@@ -92,21 +94,21 @@ void printList(IMAGE *image){
 char *newImageName( char *name){
     char *newName = (char *)malloc((strlen(name)+ 5)*sizeof(char));
     char *new = "-new";
-    strcat(newName, new);
+    strcpy(newName, new);
     strcat(newName, name);
     newName[strlen(name)+4] = '\0';
     return newName;
 }
 
-void main(int argc, char *argv[]){
+/*void main(int argc, char *argv[]){
 
     if(argc<1){
         printf("Not enough arguments\n");
         return 0;}  
-
+    
     int c;
     for(c=1; c<argc; c++){
         printList(newImage(argv[c]));
         printf("***************************************************************************\n");
-  }
-}
+  }     
+}   */

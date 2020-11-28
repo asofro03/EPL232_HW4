@@ -9,8 +9,8 @@
  *  @bug It can only read one image and print its information. It can take as input many files but it can only print one image.
  */
 
-#ifndef HEADER_h
-#define HEADER_h
+#ifndef LIST_h
+#define LIST_h
 #include <stdio.h>
 #include <string.h>
 
@@ -71,9 +71,6 @@ typedef struct{
  */
 void saveImage(IMAGE *image);
 
-
-
-
 /**
  * @brief Created a new image based on the data of the filename. Creates a Image struct where stores
  * information about the image in a BITMAPINFOHEADER, BITMAPFILEHEADER and data.
@@ -89,13 +86,6 @@ IMAGE *newImage (char *filename);
  * @param image The image that the header information is stored.
  */
 void printList(IMAGE *image);
-/*
- * @brief Prints the header list.
- * 
- * @param bitmapInfoHeader  The information about the image.  
- * @param bitmapFileHeader  The information about the file. 
- */
-//void printList(BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER *bitmapFileHeader);
 
 /**
  * @brief This function returns the name of a new image simpy by adding the word "new-"
