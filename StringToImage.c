@@ -14,6 +14,14 @@ byte getBit(char *m, int n){
     return (selectedByte & mask)>>(bitNumber-1);
 }
 
+PIXEL newPixel(byte r, byte g, byte b){
+    PIXEL pixel;
+    pixel.red=r;
+    pixel.green=g;
+    pixel.blue=b;
+    return pixel;
+}
+/*
 IMAGE stringToImage(char *image, char *filename){
 
     //piano to size gia na kamo malloc
@@ -36,7 +44,7 @@ IMAGE stringToImage(char *image, char *filename){
         printf("Cannot open file \n");
         exit(-1);}
 
-    for( c=0; c<size; c++)
+    for(c=0; c<size; c++)
         text[c]=getc(fp);
     text[size]='\0';
     fclose(fp);
@@ -47,25 +55,39 @@ IMAGE stringToImage(char *image, char *filename){
 
     int i;
 
+    PIXEL **pixels = (PIXEL **)malloc(Image->INFOHEADER->biHeight * sizeof(PIXEL *));
+    for(i=0; i<Image->INFOHEADER->biHeight; i++)
+        pixels[i]=(PIXEL *)malloc(Image->INFOHEADER->biWidth * sizeof(PIXEL));
 
-
-    for(i=0; i<dataLength; i++){
-
-    }
-
-
-
-    for(i=0; i<dataLength ; i++)
-            if(size<i)
-                Image->DATA[i]='0';
+    int r;
+    i=0;
+    for(c=0; c<Image->INFOHEADER->biWidth; c++)
+        for(r=0; r<Image->INFOHEADER->biHeight; r++){
+            if(i+2<dataLength)
+                pixels[r][c]= newPixel(Image->DATA[i], Image->DATA[i+1], Image->DATA[i+2]);
             else
-                Image->DATA[i]= 128 * getBit(string, height*i + j);
-
-    ;
-
+               if(i+1<dataLength)
+                    pixels[r][c]= newPixel(Image->DATA[i], Image->DATA[i+1], '0');
+                else
+                   if(i<dataLength)
+                    pixels[r][c]= newPixel(Image->DATA[i], '0','0');
+                    else
+                        pixels[r][c]= newPixel('0','0','0'); 
+        }
     
+
+    for(c=0; c<Image->INFOHEADER->biWidth; c++)
+        for(r=0; r<Image->INFOHEADER->biHeight; r++)
+            pixels[r][c]= 128 * getBit(string, Image->INFOHEADER->biHeight*r + c);
+
+
+
+
+
+
 }
 
+*/
 /*
 black and white pic
 
@@ -91,3 +113,32 @@ int getBit(char *m, int n);
 Εναλλακτικά θα μπορούσαμε να αγνοήσουμε το sampleImage.bmp και να φτιάξουμε μόνοι μας τα 
 BITMAP_FILE_HEADER και BITMAP_INFO_HEADER.
 */
+
+void imageToString(char *picture){
+
+    IMAGE *Image = newImage(picture);
+
+    FILE *fp;
+    fp=fopen("outputText.txt", "w");
+
+    if(fp == NULL){
+        printf("Error");   
+        exit(-1);             
+    }
+
+    int i, dataLength = sizeof(Image->DATA)/sizeof(unsigned char);
+
+    for(i=0; i<dataLength; i++)
+        fprintf(fp,"%c", Image->DATA[i]);
+    fclose(fp);
+}
+
+void main(int argc, char *argv[]){
+
+    if(argc<2){
+        printf("Not enough arguments\n");
+        return 0;}  
+
+    imageToString(argv[1]);
+
+}

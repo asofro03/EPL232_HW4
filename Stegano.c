@@ -1,7 +1,13 @@
-#include "header.h"
+#include "list.h"
 #include "Stegano.h"
 #include <stdio.h>
 #include <string.h>
+
+/*
+ gcc Stegano.c list.c -o runSis
+ ./runSis encode 4 IMG_6865.bmp IMG_6875.bmp    image says no<3
+ ./runSis decode 4 new-IMG_6865.bmp             the save image says no<3
+ */
 
 byte findMaskByte(int nbBits){
     byte nByte = 1;
