@@ -1,6 +1,6 @@
-#ifndef STEGANO_h
-#define STEGANO_h
-#include "header.h"
+#ifndef STRINGTOIMAGE_h
+#define STRINGTOIMAGE_h
+#include "list.h"
 
 typedef struct{
     byte red;
