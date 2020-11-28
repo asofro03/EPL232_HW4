@@ -1,8 +1,23 @@
-#include "list.h"
+#include "header.h"
+#include <stdio.h>
+#include <string.h>
+#include "StringToImage.h"
+
+byte getBit(char *m, int n){
+    int byteNumber = n/8;
+    byte selectedByte= m[byteNumber];
+    int bitNumber = 7-(n%8);
+    byte mask = 1;
+    int c;
+    for(c=0; c<bitNumber; c++)
+        mask<<1;
+    return (selectedByte & mask)>>(bitNumber-1);
+}
 
 IMAGE stringToImage(char *image, char *filename){
 
-    FILE *fpSize=NULL;
+    //piano to size gia na kamo malloc
+    FILE *fpSize;
     if((fpSize=fopen(filename, "r"))==NULL){
         printf("Cannot open file \n");
         exit(-1);}
@@ -15,6 +30,7 @@ IMAGE stringToImage(char *image, char *filename){
 
     char *text=(char *)malloc((size+1)*sizeof(char));
 
+    //diavazo pu arxeio
     FILE *fp=NULL;
     if((fp=fopen(filename, "r"))==NULL){
         printf("Cannot open file \n");
@@ -27,12 +43,23 @@ IMAGE stringToImage(char *image, char *filename){
 
     IMAGE *Image = newImage(image);
     Image->name =  newImageName(image);
-    
-    int r, c;
-    for(c=0; c<Image->INFOHEADER->biWidth; c++)
-        for( r=0; r<Image->INFOHEADER->biHeight; r++)
-            if(size<r*c)
-                Image->DATA
+    int dataLength = sizeof(Image->DATA)/sizeof(unsigned char);
+
+    int i;
+
+
+
+    for(i=0; i<dataLength; i++){
+
+    }
+
+
+
+    for(i=0; i<dataLength ; i++)
+            if(size<i)
+                Image->DATA[i]='0';
+            else
+                Image->DATA[i]= 128 * getBit(string, height*i + j);
 
     ;
 
