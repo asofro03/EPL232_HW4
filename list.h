@@ -45,17 +45,10 @@ typedef struct{
     // if set to zero the number of colors is calculated using the biBitCount member.   // grey
     dword biClrImportant;   // 4 bytes  // the number of color that are 'important' for the bitmap,
     // if set to zero, all colors are important.    // grey
-     luminance *buf;
+    
 }BITMAPINFOHEADER;
 
 
-/**
- * i need them in the grey scale i thing
- * 
- */ 
-BITMAPINFOHEADER alloc_grayimg(unsigned int, unsigned int);
-BITMAPINFOHEADER tograyscale(image);
-IMAGE tocolor(grayimage);
 
 typedef struct{
     BITMAPFILEHEADER *FILEHEADER;
