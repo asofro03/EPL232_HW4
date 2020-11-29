@@ -24,7 +24,7 @@ void BmpEffects(char *filename){
 	int padding = paddingBytes(infoheader);
 	int Headerbytes = fileheader->offbits;
 	int Databytes = fileheader->biSize - Headerbytes;
-	int widthbytes = infoheader->width*3 ;
+	int widthbytes = infoheader->biWidth*3 ;
 
 	copyHeader(fp,newfp,Headerbytes);
 
