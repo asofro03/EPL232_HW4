@@ -25,10 +25,11 @@ typedef struct{
     word bfReserved1;  // 2 bytes  // Usually set to   // grey
     word bfReserved2;  // 2 bytes  // Usually set to zero  // grey
     dword bfOffBits;  // 4 byte   // the offset from the beginning of the file to the bitmap data // grey
-}__attribute__ ((__packed__))BITMAPFILEHEADER;
+}__attribute__ ((__packed__))BITMAPFILEHEADER;  //
 
 typedef unsigned char luminance;
-typedef luminance pixel1[1];
+typedef luminance pixel1[1];   
+
 typedef struct{
     dword biSize; // 4 byte   // size of the BITMAPINFOHEADER structure, in bytes
     dword biWidth;    // 4 byte   // width of the image, in pixels
@@ -46,16 +47,14 @@ typedef struct{
     dword biClrImportant;   // 4 bytes  // the number of color that are 'important' for the bitmap,
     // if set to zero, all colors are important.    // grey
     
-}BITMAPINFOHEADER;
-
-
+}__attribute__ ((__packed__))BITMAPINFOHEADER;  //
 
 typedef struct{
     BITMAPFILEHEADER *FILEHEADER;
     BITMAPINFOHEADER *INFOHEADER;
     unsigned char *DATA;
     char *name;
-}IMAGE;
+}__attribute__ ((__packed__))IMAGE; //
 
 /**
  * @brief Saves an image as a file.

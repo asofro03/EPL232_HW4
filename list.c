@@ -5,16 +5,17 @@
 void saveImage(IMAGE *image){
     
     FILE *fp;
-    fp=fopen(image->name, "wb");
+    fp=fopen(image->name, "w");
     
-    fwrite(image->FILEHEADER, sizeof(image->FILEHEADER), sizeof(image->FILEHEADER)/(16*sizeof(byte)), fp);
-    fwrite(image->INFOHEADER, sizeof(image->INFOHEADER), sizeof(image->INFOHEADER)/(40*sizeof(byte)), fp);
+    fwrite(image->FILEHEADER, sizeof(image->FILEHEADER), 2, fp);
+    fwrite(image->INFOHEADER, sizeof(image->INFOHEADER), 2, fp);
 
-    printf("we have a problem here\n");
+    fseek(fp, image->FILEHEADER->bfOffBits, SEEK_SET);
+    int i;
+    for(i=0; i<image->INFOHEADER->biSizeImage; i++)
+        fputc(image->DATA[i], fp);
 
-    fwrite(image->DATA, sizeof(image->DATA), strlen(image->DATA), fp);
-
-    printf("eyy fixed\n");
+   // fwrite(image->DATA, sizeof(image->DATA), strlen(image->DATA), fp);
 
     fclose(fp);
 }
@@ -91,16 +92,16 @@ void printList(IMAGE *image){
     printf("biClrImportant: %d\n\n", image->INFOHEADER->biClrImportant);
 }
 
-char *newImageName( char *name){
-    char *newName = (char *)malloc((strlen(name)+ 5)*sizeof(char));
-    char *new = "-new";
+char *newImageName(char *name){
+    char *newName = (char *)malloc((strlen(name)+ 6)*sizeof(char));
+    char *new = "new-";
     strcpy(newName, new);
     strcat(newName, name);
-    newName[strlen(name)+4] = '\0';
+    newName[strlen(name)+5] = '\0';
     return newName;
 }
 
-/*void main(int argc, char *argv[]){
+void main(int argc, char *argv[]){
 
     if(argc<1){
         printf("Not enough arguments\n");
@@ -108,7 +109,10 @@ char *newImageName( char *name){
     
     int c;
     for(c=1; c<argc; c++){
-        printList(newImage(argv[c]));
-        printf("***************************************************************************\n");
+        IMAGE *image = newImage(argv[c]);
+       // printList(image);
+       image->name= newImageName(image->name);
+        saveImage(image);
+     //   printf("***************************************************************************\n");
   }     
-}   */
+}   
