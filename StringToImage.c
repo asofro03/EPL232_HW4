@@ -114,8 +114,21 @@ int getBit(char *m, int n);
 BITMAP_FILE_HEADER και BITMAP_INFO_HEADER.
 */
 
-int * createPermutationFunction(int N, unsigned int systemkey){
-    
+int *createPermutationFunction(int N, unsigned int systemkey){
+    int *perm= malloc(sizeof(int)*N);
+    for (int i=0; i<N; i++){
+        perm[i]=i+1;
+    }
+    srand(systemkey);
+    for(int i=0;i<N;i++){
+        int k=rand() % N;
+        int j=rand()%N;
+        int temp=perm[k];
+        perm[k]=perm[j];
+        perm[j]=temp;
+    }
+    return perm;
+
 }
 void imageToString(char *picture){
 
