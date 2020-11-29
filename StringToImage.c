@@ -114,6 +114,9 @@ int getBit(char *m, int n);
 BITMAP_FILE_HEADER και BITMAP_INFO_HEADER.
 */
 
+int * createPermutationFunction(int N, unsigned int systemkey){
+    
+}
 void imageToString(char *picture){
 
     IMAGE *Image = newImage(picture);
