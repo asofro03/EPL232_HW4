@@ -7,8 +7,8 @@ void saveImage(IMAGE *image){
     FILE *fp;
     fp=fopen(image->name, "w");
     
-    fwrite(image->FILEHEADER, sizeof(image->FILEHEADER), 1, fp);
-    fwrite(image->INFOHEADER, sizeof(image->INFOHEADER), 1, fp);
+    fwrite(image->FILEHEADER, sizeof(image->FILEHEADER), 2, fp);
+    fwrite(image->INFOHEADER, sizeof(image->INFOHEADER), 2, fp);
 
     fseek(fp, image->FILEHEADER->bfOffBits, SEEK_SET);
     int i;
