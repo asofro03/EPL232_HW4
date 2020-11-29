@@ -1,13 +1,10 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <string.h>
+
  
-/**
- * @brief this method turns the colors from a rainbow color to grayscale onr(black and white)
- * @param rgb 
- *  
- */
 void grayscaleEffect(unsigned char *rgb){
 	float value = 0.299*rgb[0] + 0.587*rgb[1] + 0.114*rgb[2];
 	int grayscale = round(value);
@@ -16,9 +13,7 @@ void grayscaleEffect(unsigned char *rgb){
 	rgb[2] = grayscale;
 }
 
-
-
-void BmpEffects(char *filename){
+void bmpGr(char *filename){
 	FILE *fp = fopen(filename, "rb");
 
 	FILE *newfp = fopen("replace.tmp", "wb"); 
@@ -26,8 +21,8 @@ void BmpEffects(char *filename){
 	BITMAPINFOHEADER *infoheader = newImage(fp);
 	
 	int padding = paddingBytes(infoheader);
-	int Headerbytes = fileheader->biBitCount;
-	int Databytes = fileheader->biSizeImage - Headerbytes;
+	int Headerbytes = fileheader->bfOffBits;
+	int Databytes = fileheader->bfSize - Headerbytes;
 	int widthbytes = infoheader->biWidth*3 ;
 
 	copyHeader(fp,newfp,Headerbytes);
