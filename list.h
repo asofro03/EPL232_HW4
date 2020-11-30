@@ -96,6 +96,7 @@ char *newImageName( char *name);
  */
 int paddBytes(BITMAPINFOHEADER *header);
 
+void cpyHeader(FILE *fpR ,FILE *fpW, int hsize);
 
 /**
  * @brief Driver function of the class. The main function takes as input one or more images

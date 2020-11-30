@@ -107,6 +107,15 @@ int paddBytes(BITMAPINFOHEADER *header){
     return 4-pad;
 }
 
+void cpyHeader(FILE *fpR ,FILE *fpW, int hsize){
+    rewind(fpR);
+    unsigned char a;
+    for(int i=0; i<hsize; i++){
+        fread(&a, sizeof(char),1, fpR);
+        fwrite(&a, sizeof(char),1,fpW);
+    }
+}
+
 void main(int argc, char *argv[]){
 
     if(argc<1){
