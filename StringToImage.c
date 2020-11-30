@@ -41,7 +41,6 @@ IMAGE *stringToImage(char *picture, char *filename){
 
     char *text=(char *)malloc((size+1)*sizeof(char));
 
-    //diavazo pu arxeio
     FILE *fp=NULL;
     if((fp=fopen(filename, "r"))==NULL){
         printf("Cannot open file \n");
@@ -87,23 +86,6 @@ IMAGE *stringToImage(char *picture, char *filename){
     return image;
 }   
 
-int *createPermutationFunction(int N, unsigned int systemkey){
-    int *perm= malloc(sizeof(int)*N);
-    for (int i=0; i<N; i++){
-        perm[i]=i+1;
-    }
-    srand(systemkey);
-    for(int i=0;i<N;i++){
-        int k=rand() % N;
-        int j=rand()%N;
-        int temp=perm[k];
-        perm[k]=perm[j];
-        perm[j]=temp;
-    }
-    return perm;
-
-}
-
 void imageToString(char *picture){
     IMAGE *image= newImage(picture);
 
@@ -128,15 +110,5 @@ int i;
         fprintf(fp, "%c", image->DATA[i]);
 
     fclose(fp);
-
-}
-
-void main(int argc, char *argv[]){
-
-    if(argc<2){
-        printf("Not enough arguments\n");
-        return 0;}  
-
-    imageToString(argv[1]);
 
 }
