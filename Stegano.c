@@ -66,7 +66,7 @@ IMAGE *decodeStegano(int nbBits, char *encryptedImage){
     return decodedImage;
 }
 
-
+/*
 void main(int argc, char *argv[]){
 
     if(argc<2){
@@ -75,4 +75,4 @@ void main(int argc, char *argv[]){
 
     saveImage(encodeStegano(atoi(argv[1]), argv[2], argv[3]));
    // saveImage(decodeStegano(atoi(argv[1]), argv[2]));
-}  
+}  */
