@@ -21,11 +21,12 @@ void pinkscaleEffect(unsigned char *rgb){
 	rgb[2] = pinkscale;
 }
 
-void bmpGr(char *filename){
+void bmpGr(char *filename,int effect){
 	
+	IMAGE *image= newImage(filename);
 	FILE *newfp = fopen("replace.tmp", "wb"); 
-	BITMAPFILEHEADER *fileheader =newImageName(filename);
-	BITMAPINFOHEADER *infoheader = newImageName(filename);
+	BITMAPFILEHEADER *fileheader =saveImage(filename);
+	BITMAPINFOHEADER *infoheader = saveImage(filename);
 	
 	int padding = paddBytes(infoheader);
 	int Headerbytes = fileheader->bfOffBits;
