@@ -21,94 +21,8 @@ PIXEL newPixel(byte r, byte g, byte b){
 }
 
 IMAGE *stringToImage(char *picture, char *filename){
-/*
-    IMAGE *image = newImage(picture);
-
-    PIXEL *pixels = (PIXEL *)malloc(sizeof(pixels)*image->INFOHEADER->biSizeImage/3);
-    int i, r, c;
-    for(i=0; i<image->INFOHEADER->biSizeImage/3; i++){
-        pixels[i]=newPixel(image->DATA[i], image->DATA[i+1], image->DATA[i+2]);
-    }
-
-    FILE *countBytes;
-    if((countBytes=fopen(filename, "r"))==NULL){
-        printf("Cannot open file \n");
-        exit(-1);}
-
-   char c = 1, counter=0;
-   while (c != EOF) {
-       c=getc(countBytes);
-       counter++;} 
-    fclose(countBytes);
-
-    byte **Bytes =(byte **) malloc(sizeof(byte *)*counter);
-    for(c=0; c<counter; c++)
-        Bytes[c]= (byte *)malloc(sizeof(byte));
-
-    int r, i=0;
-    for(r=image->INFOHEADER->biHeight-1; r>=0; r++)
-        for(c=0; c<image->INFOHEADER->biWidth; c++)
-            if(i<
-            )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     IMAGE *image = newImage(picture);
-
-    FILE *readData;
-    if((readData=fopen(filename, "r"))==NULL){
-        printf("Cannot open file \n");
-        exit(-1);}
-
-   char c = 1, size=0;
-   while (c != EOF || size<image->INFOHEADER->biSize) {
-       c=getc(readData);
-       image->DATA[size]=c;
-       size++;} 
-    fclose(readData);
-
-    int i;
-
-    for(i=size; i<image->INFOHEADER->biSize; i++)
-        image->DATA[i]=NULL;
-
-    PIXEL **pixels = (PIXEL **)malloc(image->INFOHEADER->biHeight * sizeof(PIXEL *));
-    
-    for(i=0; i<image->INFOHEADER->biHeight; i++)
-        pixels[i]=(PIXEL *)malloc(image->INFOHEADER->biWidth * sizeof(PIXEL));
-
-     int r;
-     i=0;
-    for(r=image->INFOHEADER->biHeight-1; r>=0; r--)
-        for(c=0; c<image->INFOHEADER->biHeight; c++)
-            if(i+2<image->INFOHEADER->biSize){
-                pixels[r][c]=newPixel(image->DATA[i], image->DATA[i+1], image->DATA[i+2]);
-                i+=3;
-            }
-            else
-                pixels[r][c]=newPixel(NULL, NULL, NULL);
-
-    for(c=0; c<image->INFOHEADER->biHeight; c++)
-        for(r=0; r<image->INFOHEADER->biHeight; r++)
-            pixels[r][c]=
-
-    
-*/
 
    unsigned char *Data;
     Data = (unsigned char*)malloc(image->INFOHEADER->biSizeImage);
@@ -172,56 +86,6 @@ IMAGE *stringToImage(char *picture, char *filename){
 
     return image;
 }   
-
-
-/*
-black and white pic
-
-each pixel == one bit of ascii
-0 == black ,  1 == bright
-
-1st bit == color of the pixel on the top left corner of the pic
-2nd bit == color of the next pixel in the same column επόμενου pixel στην πρώτη στήλη
-next bits you go down the column until it is completed the column
-then we start all over again at the top of the next column
-
-
-Η παραγόμενη εικόνα, η φωτεινότητα του pixel στη θέση (i,j) να ισούται με 128 x getBit(m, height*i + j)
-όπου height είναι το ύψος της εικόνας.
-
-int getBit(char *m, int n);
-
-Σημειώστε ότι το μήκος του κειμένου πρέπει να είναι αρκετό ώστε να γεμίζει τις διαστάσεις της εικόνας 
-και να γίνει ορατό ένα αποτέλεσμα και με γυμνό μάτι. 
-
-Η εικόνα sampleImage.bmp χρησιμοποιείται μόνο για να αναθέσουμε στην εικόνα που δημιουργείται, 
-τις ίδιες τιμές για τα BITMAP_FILE_HEADER και BITMAP_INFO_HEADER. 
-Εναλλακτικά θα μπορούσαμε να αγνοήσουμε το sampleImage.bmp και να φτιάξουμε μόνοι μας τα 
-BITMAP_FILE_HEADER και BITMAP_INFO_HEADER.
-*/
-/*
-void imageToString(char *picture){
-
-    IMAGE *Image = newImage(picture);
-
-    FILE *fp;
-    fp=fopen("outputText.txt", "w");
-
-    if(fp == NULL){
-        printf("Error");   
-        exit(-1);             
-    }
-
-    fwrite(Image->FILEHEADER, sizeof(Image->FILEHEADER), sizeof(Image->FILEHEADER)/(16*sizeof(byte)), fp);
-    fwrite(Image->INFOHEADER, sizeof(Image->INFOHEADER), sizeof(Image->INFOHEADER)/(40*sizeof(byte)), fp);
-
-    int i, dataLength = sizeof(Image->DATA)/sizeof(unsigned char);
-
-    for(i=0; i<dataLength; i++)
-        fprintf(fp,"%c", Image->DATA[i]);   
-        
-    fclose(fp);
-}*/
 
 int *createPermutationFunction(int N, unsigned int systemkey){
     int *perm= malloc(sizeof(int)*N);
