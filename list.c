@@ -94,11 +94,11 @@ void printList(IMAGE *image){
 }
 
 char *newImageName(char *name){
-    char *newName = (char *)malloc((strlen(name)+ 6)*sizeof(char));
+    char *newName = (char *)malloc((strlen(name)+ 5)*sizeof(char));
     char *new = "new-";
     strcpy(newName, new);
     strcat(newName, name);
-    newName[strlen(name)+5] = '\0';
+    newName[strlen(name)+4] = '\0';
     return newName;
 }
 int paddBytes(BITMAPINFOHEADER *header){
