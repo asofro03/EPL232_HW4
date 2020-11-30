@@ -21,6 +21,14 @@ PIXEL newPixel(byte r, byte g, byte b){
 }
 
 IMAGE *stringToImage(char *picture, char *filename){
+/*
+    IMAGE *image = newImage(picture);
+
+    PIXEL *pixels = (PIXEL *)malloc(sizeof(pixels)*image->INFOHEADER->biSizeImage/3);
+    int i, r, c;
+    for(i=0; i<image->INFOHEADER->biSizeImage/3; i++){
+        pixels[i]=newPixel(image->DATA[i], image->DATA[i+1], image->DATA[i+2]);
+    }
 
     FILE *countBytes;
     if((countBytes=fopen(filename, "r"))==NULL){
@@ -37,7 +45,11 @@ IMAGE *stringToImage(char *picture, char *filename){
     for(c=0; c<counter; c++)
         Bytes[c]= (byte *)malloc(sizeof(byte));
 
-
+    int r, i=0;
+    for(r=image->INFOHEADER->biHeight-1; r>=0; r++)
+        for(c=0; c<image->INFOHEADER->biWidth; c++)
+            if(i<
+            )
 
 
 
@@ -96,9 +108,9 @@ IMAGE *stringToImage(char *picture, char *filename){
             pixels[r][c]=
 
     
+*/
 
-
- /*   unsigned char *Data;
+   unsigned char *Data;
     Data = (unsigned char*)malloc(image->INFOHEADER->biSizeImage);
 
     //piano to size gia na kamo malloc
@@ -156,11 +168,7 @@ IMAGE *stringToImage(char *picture, char *filename){
     for(c=0; c<Image->INFOHEADER->biWidth; c++)
         for(r=0; r<Image->INFOHEADER->biHeight; r++){
             char *string =(char *)malloc(2*sizeof(char));
-            pixels[r][c] = 128 * getBit( pixels, Image->INFOHEADER->biHeight*r + c);}   */
-
-
-
-
+            pixels[r][c] = 128 * getBit( pixels, Image->INFOHEADER->biHeight*r + c);}   
 
     return image;
 }   
