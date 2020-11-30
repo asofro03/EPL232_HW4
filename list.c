@@ -127,9 +127,7 @@ void main(int argc, char *argv[]){
     int c;
     for(c=1; c<argc; c++){
         IMAGE *image = newImage(argv[c]);
-       // printList(image);
-       image->name= newImageName(image->name);
-        saveImage(image);
-     //   printf("***************************************************************************\n");
+        printList(image);
+       printf("***************************************************************************\n");
   }     
-}   */
+}   */   
