@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <Grayscale.h>
+#include "Grayscale.h"
  
 void grayscaleEffect(unsigned char *rgb){
 	float value = 0.299*rgb[0] + 0.587*rgb[1] + 0.114*rgb[2];
