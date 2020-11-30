@@ -3,10 +3,9 @@
 #include "list.h"
 #include "Grayscale.h"
 #include "Stegano.h"
-#include "  "
+#include "encodeText.h"
 #include "StringToImage.h"
 
-//client
 void main(int argc, char *argv[]){
 
     if(argc<2){
