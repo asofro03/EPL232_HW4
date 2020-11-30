@@ -101,6 +101,21 @@ char *newImageName(char *name){
     newName[strlen(name)+5] = '\0';
     return newName;
 }
+int paddBytes(BITMAPINFOHEADER *header){
+    int pad = (header-> biWidth*3)%4;
+    if(pad==0){
+        return 0;}
+    return 4-pad;
+}
+
+void cpyHeader(FILE *fpR ,FILE *fpW, int hsize){
+    rewind(fpR);
+    unsigned char a;
+    for(int i=0; i<hsize; i++){
+        fread(&a, sizeof(char),1, fpR);
+        fwrite(&a, sizeof(char),1,fpW);
+    }
+}
 
 /*
 void main(int argc, char *argv[]){

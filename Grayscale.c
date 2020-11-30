@@ -1,47 +1,55 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <string.h>
 
+ 
+void grayscaleEffect(unsigned char *rgb){
+	float value = 0.299*rgb[0] + 0.587*rgb[1] + 0.114*rgb[2];
+	int grayscale = round(value);
+	rgb[0] = grayscale;
+	rgb[1] = grayscale;
+	rgb[2] = grayscale;
+}
 
-int main()
-{
-    FILE *fIn = fopen("tiger.bmp", "rb");
-    FILE *fOut = fopen("tiger_gray.bmp", "wb");
-    if (!fIn || !fOut)
-    {
-        printf("File error.\n");
-        return 0;
-    }
+void bmpGr(char *filename){
+	FILE *fp = fopen(filename, "rb");
 
-    unsigned char header[54];
-    fread(header, sizeof(unsigned char), 54, fIn);
-    fwrite(header, sizeof(unsigned char), 54, fOut);
+	FILE *newfp = fopen("replace.tmp", "wb"); 
+	BITMAPFILEHEADER *fileheader =newImage(fp);
+	BITMAPINFOHEADER *infoheader = newImage(fp);
+	
+	int padding = paddingBytes(infoheader);
+	int Headerbytes = fileheader->bfOffBits;
+	int Databytes = fileheader->bfSize - Headerbytes;
+	int widthbytes = infoheader->biWidth*3 ;
 
-    int width = *(int*)&header[18];
-    int height = abs(*(int*)&header[22]);
-    int stride = (width * 3 + 3) & ~3;
-    int padding = stride - width * 3;
+	copyHeader(fp,newfp,Headerbytes);
 
-    printf("width: %d (%d)\n", width, width * 3);
-    printf("height: %d\n", height);
-    printf("stride: %d\n", stride);
-    printf("padding: %d\n", padding);
+	unsigned char rgb[3];
+	int skip=0;
+	int index=0;
+	int count=0;
+	for(int i = 0; i<Databytes; i++){
+		count++;
+		if(i == widthbytes-1 && padding !=0){
+			skip = 1;
+			index = i; 
+		}else if(i == index+padding) skip=0;
+		fread(rgb, sizeof(char), 3, fp);
+		if(skip==1){
+			grayscaleEffect(rgb);
+		}
+		fwrite(rgb, sizeof(char), 3, newfp);
+	}
+	printf("padding :%d, counter: %d\n", padding, count);
+	fclose(fp);
+	fclose(newfp);
+	remove(filename);
+	rename("replace.tmp", filename);
+	free(fileheader);
+	free(infoheader);
 
-    unsigned char pixel[3];
-    for (int y = 0; y < height; ++y)
-    {
-        for (int x = 0; x < width; ++x)
-        {
-            fread(pixel, 3, 1, fIn);
-            unsigned char gray = pixel[0] * 0.3 + pixel[1] * 0.58 + pixel[2] * 0.11;
-            memset(pixel, gray, sizeof(pixel));
-            fwrite(&pixel, 3, 1, fOut);
-        }
-        fread(pixel, padding, 1, fIn);
-        fwrite(pixel, padding, 1, fOut);
-    }
-    fclose(fOut);
-    fclose(fIn);
-    return 0;
+
 }
