@@ -4,14 +4,12 @@
 #include "StringToImage.h"
 
 byte getBit(char *m, int n){
+    if(n<0 || n> 8*strlen(m))
+        return 0;
     int byteNumber = n/8;
     byte selectedByte= m[byteNumber];
     int bitNumber = 7-(n%8);
-    byte mask = 1;
-    int c;
-    for(c=0; c<bitNumber; c++)
-        mask<<1;
-    return (selectedByte & mask)>>(bitNumber-1);
+    return (selectedByte & 1<<bitNumber)>>(bitNumber-1);
 }
 
 PIXEL newPixel(byte r, byte g, byte b){
@@ -21,8 +19,87 @@ PIXEL newPixel(byte r, byte g, byte b){
     pixel.blue=b;
     return pixel;
 }
-/*
-IMAGE stringToImage(char *image, char *filename){
+
+IMAGE *stringToImage(char *picture, char *filename){
+
+    FILE *countBytes;
+    if((countBytes=fopen(filename, "r"))==NULL){
+        printf("Cannot open file \n");
+        exit(-1);}
+
+   char c = 1, counter=0;
+   while (c != EOF) {
+       c=getc(countBytes);
+       counter++;} 
+    fclose(countBytes);
+
+    byte **Bytes =(byte **) malloc(sizeof(byte *)*counter);
+    for(c=0; c<counter; c++)
+        Bytes[c]= (byte *)malloc(sizeof(byte));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    IMAGE *image = newImage(picture);
+
+    FILE *readData;
+    if((readData=fopen(filename, "r"))==NULL){
+        printf("Cannot open file \n");
+        exit(-1);}
+
+   char c = 1, size=0;
+   while (c != EOF || size<image->INFOHEADER->biSize) {
+       c=getc(readData);
+       image->DATA[size]=c;
+       size++;} 
+    fclose(readData);
+
+    int i;
+
+    for(i=size; i<image->INFOHEADER->biSize; i++)
+        image->DATA[i]=NULL;
+
+    PIXEL **pixels = (PIXEL **)malloc(image->INFOHEADER->biHeight * sizeof(PIXEL *));
+    
+    for(i=0; i<image->INFOHEADER->biHeight; i++)
+        pixels[i]=(PIXEL *)malloc(image->INFOHEADER->biWidth * sizeof(PIXEL));
+
+     int r;
+     i=0;
+    for(r=image->INFOHEADER->biHeight-1; r>=0; r--)
+        for(c=0; c<image->INFOHEADER->biHeight; c++)
+            if(i+2<image->INFOHEADER->biSize){
+                pixels[r][c]=newPixel(image->DATA[i], image->DATA[i+1], image->DATA[i+2]);
+                i+=3;
+            }
+            else
+                pixels[r][c]=newPixel(NULL, NULL, NULL);
+
+    for(c=0; c<image->INFOHEADER->biHeight; c++)
+        for(r=0; r<image->INFOHEADER->biHeight; r++)
+            pixels[r][c]=
+
+    
+
+
+ /*   unsigned char *Data;
+    Data = (unsigned char*)malloc(image->INFOHEADER->biSizeImage);
 
     //piano to size gia na kamo malloc
     FILE *fpSize;
@@ -51,7 +128,7 @@ IMAGE stringToImage(char *image, char *filename){
 
     IMAGE *Image = newImage(image);
     Image->name =  newImageName(image);
-    int dataLength = sizeof(Image->DATA)/sizeof(unsigned char);
+    int dataLength = sizeof(Image->DATA)/sizeof(unsigned char); 
 
     int i;
 
@@ -77,17 +154,18 @@ IMAGE stringToImage(char *image, char *filename){
     
 
     for(c=0; c<Image->INFOHEADER->biWidth; c++)
-        for(r=0; r<Image->INFOHEADER->biHeight; r++)
-            pixels[r][c]= 128 * getBit(string, Image->INFOHEADER->biHeight*r + c);
+        for(r=0; r<Image->INFOHEADER->biHeight; r++){
+            char *string =(char *)malloc(2*sizeof(char));
+            pixels[r][c] = 128 * getBit( pixels, Image->INFOHEADER->biHeight*r + c);}   */
 
 
 
 
 
+    return image;
+}   
 
-}
 
-*/
 /*
 black and white pic
 
@@ -113,7 +191,7 @@ int getBit(char *m, int n);
 Εναλλακτικά θα μπορούσαμε να αγνοήσουμε το sampleImage.bmp και να φτιάξουμε μόνοι μας τα 
 BITMAP_FILE_HEADER και BITMAP_INFO_HEADER.
 */
-
+/*
 void imageToString(char *picture){
 
     IMAGE *Image = newImage(picture);
@@ -126,11 +204,43 @@ void imageToString(char *picture){
         exit(-1);             
     }
 
+    fwrite(Image->FILEHEADER, sizeof(Image->FILEHEADER), sizeof(Image->FILEHEADER)/(16*sizeof(byte)), fp);
+    fwrite(Image->INFOHEADER, sizeof(Image->INFOHEADER), sizeof(Image->INFOHEADER)/(40*sizeof(byte)), fp);
+
     int i, dataLength = sizeof(Image->DATA)/sizeof(unsigned char);
 
     for(i=0; i<dataLength; i++)
-        fprintf(fp,"%c", Image->DATA[i]);
+        fprintf(fp,"%c", Image->DATA[i]);   
+        
     fclose(fp);
+}*/
+
+
+void imageToString(char *picture){
+    IMAGE *image= newImage(picture);
+
+    int dataLength = sizeof(image->DATA)/sizeof(unsigned char);
+
+    FILE *fp;
+    fp=fopen("outputText.txt", "w");
+
+    if(fp == NULL){
+        printf("Error");   
+        exit(-1);             
+    }
+
+int i;
+    for(i=0; i<sizeof(image->FILEHEADER)/sizeof(byte);i++)
+        fprintf(fp, "%c", image->FILEHEADER[i]);
+
+    for(i=0; i<sizeof(image->INFOHEADER)/sizeof(byte);i++)
+        fprintf(fp, "%c", image->INFOHEADER[i]);
+
+    for(i=0; i<dataLength; i++)
+        fprintf(fp, "%c", image->DATA[i]);
+
+    fclose(fp);
+
 }
 
 void main(int argc, char *argv[]){
