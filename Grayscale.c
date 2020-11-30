@@ -13,40 +13,49 @@ void grayscaleEffect(unsigned char *rgb){
 	rgb[2] = grayscale;
 }
 
-void bmpGr(char *filename){
-	FILE *fp = fopen(filename, "rb");
+void pinkscaleEffect(unsigned char *rgb){
+	float value = 0.255*rgb[0] + 0.192*rgb[1] + 0.203*rgb[2];
+	int pinkscale = round(value);
+	rgb[0] = pinkscale;
+	rgb[1] = pinkscale;
+	rgb[2] = pinkscale;
+}
 
-	FILE *newfp = fopen("replace.tmp", "wb"); 
-	BITMAPFILEHEADER *fileheader =newImage(fp);
-	BITMAPINFOHEADER *infoheader = newImage(fp);
+void bmpGr(char *filename){
 	
-	int padding = paddingBytes(infoheader);
+	FILE *newfp = fopen("replace.tmp", "wb"); 
+	BITMAPFILEHEADER *fileheader =newImageName(filename);
+	BITMAPINFOHEADER *infoheader = newImageName(filename);
+	
+	int padding = paddBytes(infoheader);
 	int Headerbytes = fileheader->bfOffBits;
 	int Databytes = fileheader->bfSize - Headerbytes;
 	int widthbytes = infoheader->biWidth*3 ;
 
-	copyHeader(fp,newfp,Headerbytes);
+	cpyHeader(filename,newfp,Headerbytes);
 
 	unsigned char rgb[3];
 	int skip=0;
 	int index=0;
 	int count=0;
+	int ef=1;
 	for(int i = 0; i<Databytes; i++){
 		count++;
 		if(i == widthbytes-1 && padding !=0){
 			skip = 1;
 			index = i; 
+			
 		}else if(i == index+padding) skip=0;
-		fread(rgb, sizeof(char), 3, fp);
-		if(skip==1){
-			grayscaleEffect(rgb);
+		fread(rgb, sizeof(char), 3, filename);
+		if(!skip){
+			if(ef == 1)grayscaleEffect(rgb);
+			else if(ef == 2)pinkscaleEffect(rgb);
 		}
 		fwrite(rgb, sizeof(char), 3, newfp);
 	}
 	printf("padding :%d, counter: %d\n", padding, count);
-	fclose(fp);
+	fclose(filename);
 	fclose(newfp);
-	remove(filename);
 	rename("replace.tmp", filename);
 	free(fileheader);
 	free(infoheader);
