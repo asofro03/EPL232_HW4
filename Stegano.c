@@ -2,23 +2,13 @@
 #include "Stegano.h"
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 /*
  gcc Stegano.c list.c -o runSis
  ./runSis encode 4 IMG_6865.bmp IMG_6875.bmp    image says no<3
  ./runSis decode 4 new-IMG_6865.bmp             the save image says no<3
  */
-
-byte findMaskByte(int nbBits){
-    byte nByte = 1;
-
-    int c;
-    for(c=1; c<nbBits; c++){
-        nByte= nByte<<1;
-        nByte = nByte|1;
-    }
-    return nByte;
-}
 
 IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
     
@@ -34,26 +24,25 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
     IMAGE *encodedImage = newImage(maskImage);
     encodedImage->name=newImageName(maskImage);
 
-    byte nByte = findMaskByte(nbBits);
-    nByte = nByte<<(8-nbBits);
-
-    int c;
-    for( c=0; c< strlen(Mask->DATA); c++){
-        byte getMostSignificant = Secret->DATA[c] & nByte;
-        getMostSignificant= getMostSignificant>>(8-nbBits);
+   for( c=0; c< Mask->INFOHEADER->biSizeImage; c++){
+        int getMostSignificant = Secret->DATA[c] >> (8-nbBits);
+        getMostSignificant=getMostSignificant%(int)pow(2, nbBits);
+        Mask->DATA[c]=Mask->DATA[c]>>nbBits;
+        Mask->DATA[c]=Mask->DATA[c]<<nbBits;
         encodedImage->DATA[c]= Mask->DATA[c]|getMostSignificant;
-    }
+    }  
 
     return encodedImage;
 }
 
 IMAGE *decodeStegano(int nbBits, char *encryptedImage){
-
+   
     IMAGE *Encrypted = newImage(encryptedImage);
+   
     IMAGE *encodedImage = newImage(encryptedImage);
-    
+
     encodedImage->name=newImageName(encryptedImage);
-    
+
     byte nByte = findMaskByte(nbBits);
 
     int c;
@@ -72,9 +61,12 @@ void main(int argc, char *argv[]){
         printf("Not enough arguments\n");
         return 0;}  
 
-    if((strcmp(argv[1], "encode")==0))
-        saveImage(encodeStegano(argv[2], argv[3], argv[4]));
-    else
-        saveImage(decodeStegano(argv[2], argv[3]));
+   // if((strcmp(argv[1], "encode")==0))
+       saveImage(encodeStegano(atoi(argv[1]), argv[2], argv[3]));
+  //  else
 
+ // int number = (int)(argv[1]-'0');
+//    IMAGE *image = decodeStegano( atoi(argv[1]), argv[2]);
+ //   saveImage(image);
+       // saveImage(decodeStegano( atoi(argv[1]), argv[2]));
 }
