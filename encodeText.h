@@ -1,8 +1,13 @@
+/** @file encodeText
+ *  @brief 2 methodes that we need in other classes
+ *  @author Antria Argyrou
+ *  @bug not known bugs 
+ */
+
+
+
 #ifndef ENCODETEXT_H
 #define ENCODETEXT_H
-
-
-
 
 /**
  * @brief creates an array with integers and then 'suffles' it
