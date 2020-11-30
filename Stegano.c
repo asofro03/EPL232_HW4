@@ -2,13 +2,6 @@
 #include "Stegano.h"
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
-
-/*
-gcc Stegano.c list.c -o run -lm
-encode:     ./run 4 IMG_6865.bmp IMG_6875.bmp
-decode:     ./run decode 4 new-IMG_6865.bmp
-*/
 
 int findMaskByte(int nbBits){
     int nByte = 1;
