@@ -6,7 +6,7 @@
  *  The information about each image is printed in printList function.
  *
  *  @author AnnaMaria Sofroniou
- *  @bug It can only read one image and print its information. It can take as input many files but it can only print one image.
+ *  @bug No known bugs.
  */
 
 #ifndef LIST_h
@@ -25,7 +25,7 @@ typedef struct{
     word bfReserved1;  // 2 bytes  // Usually set to   // grey
     word bfReserved2;  // 2 bytes  // Usually set to zero  // grey
     dword bfOffBits;  // 4 byte   // the offset from the beginning of the file to the bitmap data // grey
-}__attribute__ ((__packed__))BITMAPFILEHEADER;  //
+}__attribute__((__packed__))BITMAPFILEHEADER;  //
 
 typedef unsigned char luminance;
 typedef luminance pixel1[1];   
@@ -47,14 +47,14 @@ typedef struct{
     dword biClrImportant;   // 4 bytes  // the number of color that are 'important' for the bitmap,
     // if set to zero, all colors are important.    // grey
     
-}__attribute__ ((__packed__))BITMAPINFOHEADER;  //
+}__attribute__((__packed__))BITMAPINFOHEADER;  //
 
 typedef struct{
     BITMAPFILEHEADER *FILEHEADER;
     BITMAPINFOHEADER *INFOHEADER;
     unsigned char *DATA;
     char *name;
-}__attribute__ ((__packed__))IMAGE; //
+}__attribute__((__packed__))IMAGE; //
 
 /**
  * @brief Saves an image as a file.

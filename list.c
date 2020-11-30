@@ -3,19 +3,18 @@
 #include <string.h>
 
 void saveImage(IMAGE *image){
-    
-    FILE *fp;
+    FILE *fp=NULL;
     fp=fopen(image->name, "w");
-    
-    fwrite(image->FILEHEADER, sizeof(image->FILEHEADER), 2, fp);
-    fwrite(image->INFOHEADER, sizeof(image->INFOHEADER), 2, fp);
+
+    fwrite(image->FILEHEADER, sizeof(BITMAPFILEHEADER), 1, fp);
+
+    fwrite(image->INFOHEADER, sizeof(BITMAPINFOHEADER), 1, fp);
 
     fseek(fp, image->FILEHEADER->bfOffBits, SEEK_SET);
     int i;
+
     for(i=0; i<image->INFOHEADER->biSizeImage; i++)
         fputc(image->DATA[i], fp);
-
-   // fwrite(image->DATA, sizeof(image->DATA), strlen(image->DATA), fp);
 
     fclose(fp);
 }
@@ -42,6 +41,8 @@ IMAGE *newImage(char *filename){
 
     fread(InfoHeader, sizeof(BITMAPINFOHEADER), 1, fp);
 
+    fseek(fp, FileHeader->bfOffBits, SEEK_SET);
+
     unsigned char *Data;
     Data = (unsigned char*)malloc(InfoHeader->biSizeImage);
     if (Data==NULL){
@@ -63,7 +64,7 @@ IMAGE *newImage(char *filename){
     image->DATA= Data;
     image->FILEHEADER = FileHeader;
     image->INFOHEADER = InfoHeader;
-    image->name = filename;
+    image->name = filename; 
 
     return image;
 }
@@ -101,6 +102,7 @@ char *newImageName(char *name){
     return newName;
 }
 
+/*
 void main(int argc, char *argv[]){
 
     if(argc<1){
@@ -115,4 +117,4 @@ void main(int argc, char *argv[]){
         saveImage(image);
      //   printf("***************************************************************************\n");
   }     
-}   
+}   */
