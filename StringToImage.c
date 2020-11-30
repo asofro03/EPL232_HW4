@@ -80,8 +80,8 @@ IMAGE *stringToImage(char *picture, char *filename){
 
     for(c=0; c<Image->INFOHEADER->biWidth; c++)
         for(r=0; r<Image->INFOHEADER->biHeight; r++){
-            char *string =(char *)malloc(2*sizeof(char));
-            pixels[r][c] = 128 * getBit( pixels, Image->INFOHEADER->biHeight*r + c);}   
+            char *string =(char *)malloc(2*sizeof(char));}
+           // pixels[r][c] = 128 * getBit( pixels, Image->INFOHEADER->biHeight*r + c);}   
 
     return image;
 }   
