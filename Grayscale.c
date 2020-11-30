@@ -21,44 +21,49 @@ void pinkscaleEffect(unsigned char *rgb){
 	rgb[2] = pinkscale;
 }
 
-void bmpGr(char *filename){
+void bmpGr(char *filename,int effect){
 	
-	FILE *newfp = fopen("replace.tmp", "wb"); 
-	BITMAPFILEHEADER *fileheader =newImageName(filename);
-	BITMAPINFOHEADER *infoheader = newImageName(filename);
-	
-	int padding = paddBytes(infoheader);
-	int Headerbytes = fileheader->bfOffBits;
-	int Databytes = fileheader->bfSize - Headerbytes;
-	int widthbytes = infoheader->biWidth*3 ;
+	IMAGE *image= newImage(filename);
+	int padding = paddBytes(image->INFOHEADER);
+	int Headerbytes = (image->FILEHEADER)->bfOffBits;
+	int Databytes = (image->FILEHEADER)->bfSize - Headerbytes;
+	int widthbytes = (image->INFOHEADER)->biWidth*3 ;
 
-	cpyHeader(filename,newfp,Headerbytes);
-
-	unsigned char rgb[3];
+	//unsigned char rgb[3];
 	int skip=0;
 	int index=0;
-	int count=0;
+	
 	int ef=1;
-	for(int i = 0; i<Databytes; i++){
-		count++;
-		if(i == widthbytes-1 && padding !=0){
+//	for(int i = 0; i<Databytes; i++){
+		int j;
+		for(j=0; j<image->INFOHEADER->biSizeImage;j+=3){
+		/*	if(i == widthbytes-1 && padding !=0){
 			skip = 1;
 			index = i; 
 			
-		}else if(i == index+padding) skip=0;
-		fread(rgb, sizeof(char), 3, filename);
-		if(!skip){
-			if(ef == 1)grayscaleEffect(rgb);
-			else if(ef == 2)pinkscaleEffect(rgb);
+		}else if(i == index+padding) skip=0;*/
+		//fread(rgb, sizeof(char), 3, filename);
+			unsigned char *a=(unsigned char *)malloc(sizeof(unsigned char)*3);
+			a[0]=image->DATA[j];
+			a[1]=image->DATA[j+1];
+			a[2]=image->DATA[j+2];
+
+			if(!skip){
+			if(ef == 1){
+				grayscaleEffect(a);
+				image->DATA[j]=a[0];
+				image->DATA[j+1]=a[1];
+				image->DATA[j+2]=a[2];
+
+
+			}
+			else if(ef == 2){
+				pinkscaleEffect(a);}
 		}
-		fwrite(rgb, sizeof(char), 3, newfp);
+			
+		//}
+		//fwrite(rgb, sizeof(char), 3, newfp);
 	}
-	printf("padding :%d, counter: %d\n", padding, count);
-	fclose(filename);
-	fclose(newfp);
-	rename("replace.tmp", filename);
-	free(fileheader);
-	free(infoheader);
-
-
-}
+	saveimage(image);
+	free(image);
+	}
