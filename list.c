@@ -100,6 +100,12 @@ char *newImageName(char *name){
     newName[strlen(name)+5] = '\0';
     return newName;
 }
+int paddBytes(BITMAPINFOHEADER *header){
+    int pad = (header-> biWidth*3)%4;
+    if(pad==0){
+        return 0;}
+    return 4-pad;
+}
 
 void main(int argc, char *argv[]){
 
