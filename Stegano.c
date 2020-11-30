@@ -38,7 +38,7 @@ IMAGE *encodeStegano(int nbBits, char *maskImage, char *secretImage){
     int c;
    for( c=0; c< Mask->INFOHEADER->biSizeImage; c++){
         int getMostSignificant = Secret->DATA[c] >> (8-nbBits);
-        getMostSignificant=getMostSignificant%(int)pow(2, nbBits);
+        getMostSignificant=getMostSignificant & findMaskByte(nbBits);
         Mask->DATA[c]=Mask->DATA[c]>>nbBits;
         Mask->DATA[c]=Mask->DATA[c]<<nbBits;
         encodedImage->DATA[c]= Mask->DATA[c]|getMostSignificant;
@@ -66,7 +66,7 @@ IMAGE *decodeStegano(int nbBits, char *encryptedImage){
     return decodedImage;
 }
 
-/*
+
 void main(int argc, char *argv[]){
 
     if(argc<2){
@@ -74,5 +74,5 @@ void main(int argc, char *argv[]){
         return 0;}  
 
     saveImage(encodeStegano(atoi(argv[1]), argv[2], argv[3]));
-    saveImage(decodeStegano(atoi(argv[1]), argv[2]));
-}   */
+   // saveImage(decodeStegano(atoi(argv[1]), argv[2]));
+}  
