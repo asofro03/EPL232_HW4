@@ -21,6 +21,15 @@ void pinkscaleEffect(unsigned char *rgb){
 	rgb[2] = pinkscale;
 }
 
+/**
+ * @brief this method is where actually the change happends it takes the 
+ *		 image and change the rgb 3 by 3 by calling the grayscale effect method 
+ *        
+ * @param filename is the image
+ * @param effect the one is for the homework and the
+ * 
+ */
+
 void bmpGr(char *filename,int effect){
 	
 	IMAGE *image= newImage(filename);
@@ -58,7 +67,11 @@ void bmpGr(char *filename,int effect){
 
 			}
 			else if(ef == 2){
-				pinkscaleEffect(a);}
+				pinkscaleEffect(a);
+				image->DATA[j]=a[0];
+				image->DATA[j+1]=a[1];
+				image->DATA[j+2]=a[2];
+				}
 		}
 			
 		//}
@@ -67,3 +80,6 @@ void bmpGr(char *filename,int effect){
 	saveimage(image);
 	free(image);
 	}
+	void main(int argc, char *argv[]){
+	bmpGr(argv[1], 2);
+}
